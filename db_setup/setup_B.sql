@@ -1,5 +1,9 @@
-USE [Compression_Demo]
+CREATE DATABASE Traffic_B
 GO
+
+USE Traffic_B
+GO
+
 /****** Object:  Table [dbo].[Endpoint_Enhanced]    Script Date: 12/18/18 9:19:37 PM ******/
 SET ANSI_NULLS ON
 GO

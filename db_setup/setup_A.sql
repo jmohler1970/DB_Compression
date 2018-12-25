@@ -1,5 +1,9 @@
 -- Approach A
-USE [Compression_Demo]
+
+CREATE DATABASE Traffic_A
+GO
+
+USE Traffic_A
 GO
 
 /****** Object:  Table [dbo].[Traffic]    Script Date: 12/18/18 9:16:12 PM ******/

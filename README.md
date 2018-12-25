@@ -1,5 +1,10 @@
 # Introduction
 
+I am going to argue against data normalization and I am going to be using traffic tracking as an example
+
+
+## About the traffic tracking
+
 I want to store traffic information on my database. In particular I want to store
 
 - CreateDate: When a request came in
@@ -9,13 +14,22 @@ I want to store traffic information on my database. In particular I want to stor
 - User_agent: I want to know what kind of a browswer or requestor is being used 
 
 
+## Goals for this video
+
+1. I want to give an example of where normalizing data makes it impossible to manage
+2. I want to explain on SQL Server data compression works
+3. I want to argue that using SQL data compression will achieve most of the goals that data normalization tries to achieve
+4. I want to show how to create a compressed indexed view
+5. I want to talk about how that is useful.
+
+
+
 # Working the problem
 
 
 ## Approach A
 
-The first easy approach is just save the data along with a Identity to be the primary key. I am concerned how wide these columns are. I don't think this is going to be space efficient.
-
+The first easy approach is just save the data along with a Identity to be the primary key. I am concerned how wide these columns are. I don't think this is going to be space efficient. `User_Agent` alone is very large.
 
 
 ## Approach B
@@ -30,7 +44,7 @@ There is no clean way to scrub this data. I expect that IP and User_Agent inform
 
 ## Approach C
 
-Let's go back to A and do some cleanup. First off my data is too long. I don't really need IP. I just need to know how many unique IPs there are. So let's just save a `CHECKSUM` of that. 
+Let's go back to A and do some cleanup. First off my data is too long. I don't really need IP. I just need to know how many unique IPs there are. So let's just save a `hash()` of that. 
 
 `User_Agent` can be very long. I have heard up to 16k. I don't want to save all that. I am just going to cut it off at 255 characters.
 
@@ -52,11 +66,25 @@ Anytime it sees `endpoint` or `verb` or `ip_hash` or `user_agent` repeating, it 
 
 ### CPU time vs Disk IO time
 
+As with all technology choices, using compression changes how teh database operates. It puts a bigger load on CPUs because data has to be compresses and decompressed when it is written a read. Of course as it is reading from the file system, it does not have to as much Disk I0. So what is faster a disk or a bunch of CPUs? I hope everyone knows the answer to that question. If not, go look it up.
+
+Loading the CPU more, and Disk less is in general a good idea. They only time this doesn't work out is if you data is highly variant. That is to say there is no duplication to compress out. In that particular case, the extra work to try and compress data, is wasted effort and CPU cycles.
 
 
 ## Now with views
 
-I am going to create a view too 
+I am going to create a view too, but this is not a normal view.
+
+I collect data as traffic come in, but it is very common to evaluate data on a daily basis.
+
+# Let's check our results
+
+EXEC sp_estimate_data_compression_savings 'dbo', 'Traffic_C', NULL, NULL, 'NONE' ;  
+GO 
+
+EXEC sp_estimate_data_compression_savings 'dbo', 'vwTraffic_C', NULL, NULL, 'NONE' ;  
+GO 
+
 
 # Resources
 

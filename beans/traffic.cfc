@@ -1,6 +1,6 @@
 component persisted="true"	{
 
-	property name="id";
+	property name="id" fieldtype="id";
 	property name="endpoint";
 	property name="verb";
 	property name="user_agent";
