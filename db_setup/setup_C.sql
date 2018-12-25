@@ -32,10 +32,10 @@ GO
 /****** Object:  Index [IX_view]    Script Date: 12/18/18 9:14:24 PM ******/
 CREATE UNIQUE CLUSTERED INDEX [IX_view] ON [dbo].[vwTraffic]
 (
+	[CreateDate] ASC,
 	[Endpoint] ASC,
 	[Verb] ASC,
-	[IP_checksum] ASC,
-	[CreateDate] ASC
+	[IP_checksum] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -59,3 +59,5 @@ ALTER ROLE [db_datawriter] ADD MEMBER [Traffic_user]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [Traffic_user]
 GO
+
+

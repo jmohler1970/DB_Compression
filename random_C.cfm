@@ -1,20 +1,12 @@
 
-
 <cfscript>
 arEndpoints = ["stateprovince","users","login","login/captcha,wiki,settings,pages,pages/fragments"];
 arVerbs = ["get","post","put","patch","delete"];
 
-
-
 for (i = 1; i < 1000; i++)	{
-
 	invoke("services.traffic", "add", { endpoint : arEndpoints[randRange(1, arEndPoints.len())], verb : arVerbs[randRange(1, arVerbs.len())] });
 }
-
-
 </cfscript>
-
-Data has been added.
 
 <h2>Table Status</h2>
 
