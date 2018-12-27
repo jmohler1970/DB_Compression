@@ -17,6 +17,19 @@ WITH (DATA_COMPRESSION = PAGE)
 GO
 
 
+/****** Object:  Index [CIX_CreateDate]    Script Date: 12/26/18 6:07:47 PM ******/
+CREATE CLUSTERED INDEX [CIX_CreateDate] ON [dbo].[Traffic]
+(
+	[CreateDate] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, 
+SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+ALTER INDEX CIX_CreateDate ON dbo.Traffic REBUILD PARTITION = ALL  
+WITH (DATA_COMPRESSION = PAGE);
+GO
+
+
 -----------------------------------------
 
 CREATE VIEW [dbo].[vwTraffic] WITH SCHEMABINDING
